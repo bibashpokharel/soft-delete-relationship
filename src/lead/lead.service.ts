@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { async } from 'rxjs';
 import { Customer } from 'src/customer/customer.entity';
@@ -14,6 +18,12 @@ export class LeadService {
 
   createLead = async (body): Promise<any> => {
     const { customerId, ...rest } = body;
+    const existingLead = await this.leadRepo.findOne({
+      where: { customer: { id: customerId } },
+    });
+    if (existingLead) {
+      throw new BadRequestException('customer has already a lead');
+    }
     return await this.leadRepo.save({
       ...rest,
       customer: { id: customerId as Customer },
