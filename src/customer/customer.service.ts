@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { LeadService } from 'src/lead/lead.service';
 import { Repository } from 'typeorm';
 import { Customer } from './customer.entity';
 
@@ -8,6 +9,7 @@ export class CustomerService {
   constructor(
     @InjectRepository(Customer)
     private readonly customerRepo: Repository<Customer>,
+    private readonly leadService: LeadService,
   ) {}
 
   async createCustomer(body): Promise<any> {
@@ -22,6 +24,7 @@ export class CustomerService {
   }
 
   async deleteCustomer(id): Promise<any> {
+    await this.leadService.deleteLeadByCustomerId(id);
     return await this.customerRepo.softDelete(id);
   }
 }

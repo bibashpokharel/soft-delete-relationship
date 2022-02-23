@@ -8,5 +8,6 @@ import { LeadService } from './lead.service';
   imports: [TypeOrmModule.forFeature([Lead])],
   controllers: [LeadController],
   providers: [LeadService],
+  exports: [LeadService],
 })
 export class LeadModule {}

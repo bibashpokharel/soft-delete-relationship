@@ -15,7 +15,7 @@ export class CustomerController {
     return await this.service.getByCustomerId(customerId);
   }
 
-  @Delete()
+  @Delete(':id')
   async deleteCustomer(@Param('id') id: string): Promise<any> {
     return await this.service.deleteCustomer(id);
   }

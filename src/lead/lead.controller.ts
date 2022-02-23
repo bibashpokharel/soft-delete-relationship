@@ -19,6 +19,6 @@ export class LeadController {
 
   @Delete(':id')
   async deleteLead(@Param('id') id: string): Promise<any> {
-    return this.service.deleteLead(id);
+    return this.service.deleteOneLead(id);
   }
 }
