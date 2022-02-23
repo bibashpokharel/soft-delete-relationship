@@ -24,7 +24,12 @@ export class CustomerService {
   }
 
   async deleteCustomer(id): Promise<any> {
+    // since there is not foreign key constraint, we have to manually go and soft delete the leads for the particular customer Id
+
+    // we need to make sure that this operation is atomic
     await this.leadService.deleteLeadByCustomerId(id);
+
+    // deleting customer now
     return await this.customerRepo.softDelete(id);
   }
 }
